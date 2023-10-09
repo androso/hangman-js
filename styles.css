@@ -1,0 +1,177 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  :root {
+    --main-bg-color: #272D37;
+    --main-font-color: white;
+    --light-white: #eee;
+    --light-black: #111;
+    --light-blue: #C1FDFF;
+    --light-blue-darker: rgb(205, 254, 255);
+    --text-color: #bbd1d1;
+    --secondary-blue: #86C0BD;
+    --container-width: 768px;
+    
+    --font-body-stack : Roboto, Helvetica, sans-serif;
+    --font-heading-stack: Roboto, Impact, Charcoal, sans-serif;
+  }
+  body {
+    font-size: 18px;
+  }
+  #root {
+    min-height: 100vh;
+    background-color: rgba(13, 22, 36, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .hangman__container {
+    position: relative;
+    width: 85vw;
+    max-width: var(--container-width);
+    min-height: 370px;
+    padding: 20px;
+    background: var(--main-bg-color);
+    box-shadow: 7px 8px 5px #35807E;
+    border-radius: 4px;
+    text-align: center;
+    color: var(--text-color);
+  }
+  
+  .button {
+    cursor: pointer;
+    
+  }
+  /*-------- HOME SCREEN --------*/
+  .title {
+    color: var(--light-blue);
+    font-size: 2.22rem;
+  }
+  .hangman__title {
+    
+    margin-bottom: 25px;
+  }
+  .button {
+    display: block;
+    margin: 0 auto;
+    width: 149px;
+    padding: 10px 15px;
+    font-size: 1.33rem;
+    background: var(--light-blue);
+    border: none;
+    border-radius: 7px;
+    margin-bottom: 15px;
+    transition: background .3s ease;
+    text-decoration: none; 
+    font-weight: 700;
+    color: #333; 
+  }
+  .button:hover {
+    background: var(--light-blue-darker);
+  }
+  .attribution {
+    position: absolute;
+    color: var(--secondary-blue);
+    font-weight: 700;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+  }
+  .attribution a {
+    color: var(--secondary-blue);
+    text-decoration: none;
+  }
+  .attribution a:hover {
+    text-decoration: underline;
+  }
+  
+  @media(min-width: 700px) {
+    .hangman__container {
+      min-height: 500px;
+    }
+  }
+  @media(min-width: 1024px) {
+    .hangman__container {
+      min-height: 680px;
+    }
+  }
+  
+  /*-------- INSTRUCTIONS --------*/
+  
+  
+  .instructions__list {
+    padding: 1rem 1.8rem;
+    padding-left: 3rem; 
+    line-height: 1.7;
+    list-style: circle;
+    text-align:left;
+    margin-bottom: 20px;
+  }
+  .button.menu {
+    width: 170px;
+  }
+  
+  /*-------- GAME SCREEN --------*/
+  .game__stats {
+    text-align: left;
+  }
+  .game__word {
+    letter-spacing: 8px;
+    font-size: 2.5rem;
+    margin-bottom: 20px; 
+  }
+  /* CANVAS */ 
+  canvas {
+    border: 2px dashed white; 
+  }
+  /* KEYBOARD */
+  .game__instructions {
+    color: var(--light-blue);
+    font-style: italic;
+    
+  }
+  .game__letters {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    max-width: 580px;
+    justify-content: center; 
+    margin: 0 auto;
+    margin-bottom: 25px;
+  }
+  
+  .game__letter {
+    background-color: #fafafa;
+    text-transform: uppercase;
+    font-family: var(--font-body-stack);
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    margin: 1rem 1px 0 1px;
+    color: var(--light-black);
+    border: 3px solid var(--main-bg-color);
+    font-size: 1.2rem;
+    cursor: pointer;
+    
+  }
+  .game__letter:hover {
+    border: 3px solid var(--light-blue);
+  }
+  .game__letter.pressed {
+    cursor: default;
+    background-color: #555;
+  }
+  .game__letter.pressed.wrong {
+    border: 3px solid red;
+  }
+  /*-------- RESULTS SCREEN --------*/
+  h3.result:first-of-type {
+    margin-top: 20px;
+  }
+  h3.result:last-of-type {
+    margin-bottom: 25px;
+    
+  }
