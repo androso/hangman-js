@@ -1,4 +1,4 @@
-export var wordList = [
+export const wordList = [
     "wares",
     "soup",
     "mount",
