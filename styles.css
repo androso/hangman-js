@@ -175,3 +175,26 @@
     margin-bottom: 25px;
     
   }
+
+  .keyboard{
+    padding: 50px;
+  }
+
+  .key{
+    width: 37px;
+    height: 35px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    margin-right: 5px;
+    margin-top: 16px;
+  }
+  .key:last-of-type {
+    margin-right: 0;
+  }
+
+  .key:hover{
+    cursor: pointer;
+    border-radius: 5px;
+    transform: scale(1.1);
+    border: 2px solid rgb(92, 214, 255)
+  }
