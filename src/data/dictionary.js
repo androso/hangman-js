@@ -1,4 +1,4 @@
-const wordList = [
+export const wordList = [
     "wares",
     "soup",
     "mount",
@@ -440,5 +440,3 @@ const wordList = [
     "buffet",
     "lively",
 ];
-
-module.exports = wordList;
