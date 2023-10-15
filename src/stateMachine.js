@@ -6,7 +6,7 @@
 // Tiempo limite para resolver el juego
 // Resultado de la partida
 
-import { wordList} from "./data/dictionary.js";
+import { wordList } from "./data/dictionary.js";
 
 class HangmanGame {
     constructor(word) {
@@ -17,9 +17,15 @@ class HangmanGame {
         this.placeholder = word.split("").map(letter => "_")
         this.currentState = "PLAYING"
     }
-    getLivesLeft() {
-        return this.livesLeft; 
+
+    getPlaceholder() {
+        return this.placeholder;
     }
+
+    getLivesLeft() {
+        return this.livesLeft;
+    }
+
     guess(guessingLetter) {
         if (this.placeholder.includes(guessingLetter)) return;
 

@@ -1,5 +1,5 @@
-// const game = require("./stateMachine.js")
 import { game } from "./stateMachine.js";
+
 function draw(startX, startY, endX, endY) {
     ctx.moveTo(startX, startY);
     ctx.lineTo(endX, endY);
@@ -65,4 +65,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const $livesLeft = document.querySelector(".game__stats");
     const gameLivesLeft = game.getLivesLeft();
     $livesLeft.innerText = `Lives: ${gameLivesLeft}`;
+
+    // Showing placeholder of word selected
+    const $placeholder = document.querySelector(".game__word");
+    const wordSelectedPlaceholder = game.getPlaceholder().join("");
+    $placeholder.innerText = wordSelectedPlaceholder;
+
 })
