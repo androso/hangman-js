@@ -1,3 +1,5 @@
+// const game = require("./stateMachine.js")
+import { game } from "./stateMachine.js";
 function draw(startX, startY, endX, endY) {
     ctx.moveTo(startX, startY);
     ctx.lineTo(endX, endY);
@@ -60,5 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     // replace lives left with value from the state machine
-    
+    const $livesLeft = document.querySelector(".game__stats");
+    const gameLivesLeft = game.getLivesLeft();
+    $livesLeft.innerText = `Lives: ${gameLivesLeft}`;
 })
