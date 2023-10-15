@@ -16,6 +16,21 @@ class HangmanGame {
         this.wordSelected = "";
         this.placeholder = word.split("").map(letter => "_")
         this.currentState = "PLAYING"
+        this.observers = []; // renderer functions to which we're gonna pass data each time it gets changed
+    }
+
+    subscribe({ render, name }) {
+        // render = renderer function
+        // name = name of the renderer function (id)
+        this.observers.push({ render, name })
+    }
+
+    unsubscribe(observerName) {
+        this.observers = this.observers.filter(observer => observer.name !== observerName);
+    }
+
+    notify(data) {
+        this.observers.forEach(observer => observer.render(data));
     }
 
     getPlaceholder() {

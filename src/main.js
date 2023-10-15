@@ -50,6 +50,8 @@ const handleKeyPressed = (event) => {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    // adding renderer functions
+
     // initialize the hangman drawing
     drawHangmanPlatform()
 
