@@ -8,7 +8,7 @@
 
 import { wordList } from "./data/dictionary.js";
 
-class HangmanGame {
+export default class HangmanGameState {
     constructor(word) {
         this.word = word.toUpperCase();
         this.splittedWord = this.word.split("");
@@ -69,9 +69,10 @@ class HangmanGame {
         }
     }
 }
+
 const randomIndex = Math.round(Math.random() * wordList.length);
 const randomWord = wordList[randomIndex];
-export const game = new HangmanGame(randomWord);
+export const game = new HangmanGameState(randomWord);
 // there has to be a connection between the html displayed,
 // how cicking something generates an action in the js and changes the state of the game resulting
 // in a change in the html displayed
