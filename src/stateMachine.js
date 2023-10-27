@@ -42,11 +42,12 @@ export default class HangmanGameState {
     }
 
     guess(guessingLetter) {
+
         if (this.placeholder.includes(guessingLetter)) return;
 
         const currentWord = this.splittedWord;
         guessingLetter = guessingLetter.toUpperCase();
-
+        
         if (currentWord.includes(guessingLetter)) {
             const indexes = currentWord.map((lett, index) => ({
                 letter: lett,
@@ -62,9 +63,11 @@ export default class HangmanGameState {
                 }
             })
             this.placeholder = newPlaceholder;
+            console.log({newPlaceholder})
             return true;
         } else {
             this.livesLeft -= 1;
+            console.log(guessingLetter, " no esta en la palabra")
             return false;
         }
     }

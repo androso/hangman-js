@@ -80,7 +80,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const $rootContainer = document.getElementById("root");
     const gameState = {
         livesLeft: game.getLivesLeft(),
-        placeholder: game.getPlaceholder()
+        placeholder: game.getPlaceholder(),
+        guessLetter: game.guess
     }
 
     const gameScreen = new GameScreen(gameState);
