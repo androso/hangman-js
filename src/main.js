@@ -104,9 +104,6 @@ const renderGameScreen = (gameState) => {
         case 6:
             drawRope(ctx);
             break;
-
-
-
     }
 
     const $keyboardKeys = $screen.querySelectorAll(".game__letter");
@@ -125,6 +122,27 @@ const renderGameScreen = (gameState) => {
     }
 }
 
+const renderEndScreen = (data) => {
+    const $rootContainer = document.getElementById("root");
+    const result = data.currentStatate === "WON" ? "won!" : "lost :(";
+
+    const screenHTML = `
+        <div class="hangman__container">
+            <h1 className="game__title">GAME OVER</h1>
+            <h3 className="result">You ${result}</h3>
+            <h3 className="result">The word is ${data.word}</h3> 
+              <a
+                href="./game.html"
+                class="button game"
+                onclick="//()=> { sounds.click.play()}"
+                >New Game</a
+                >
+        </div> 
+    `
+
+    $rootContainer.innerHTML = screenHTML;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 
     if (document.readyState !== "loading") {
@@ -135,7 +153,14 @@ document.addEventListener("DOMContentLoaded", () => {
         // we're gonna re-render gameScreen each time 
         // the state of the gameInstance changes
         gameInstance.subscribe({
-            render: renderGameScreen, // recibira estado del juego y renderizara
+            render: (data) => {
+                if (data.currentState !== "PLAYING") {
+                    // game finished
+                    renderEndScreen(data);
+                } else {
+                    renderGameScreen(data)
+                }
+            }, // recibira estado del juego y renderizara
             name: "gameScreen"
         })
 

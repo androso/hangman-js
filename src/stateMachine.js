@@ -50,7 +50,15 @@ export default class HangmanGameState {
             this.livesLeft -= 1;
             console.log(`${guessingLetter} no esta en la palabra`)
         }
+
         this.lettersPressed.push(guessingLetter);
+
+        if (this.livesLeft === 0) {
+            this.currentState = "LOST"
+        } else if (!this.placeholder.includes("_")) {
+            this.currentState = "WON"
+        }
+
         this.notify();
     }
 
