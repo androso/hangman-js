@@ -1,79 +1,48 @@
 import { getGameInstance } from "./stateMachine.js";
 import { alphabet } from "./views/gameScreen.js";
 
-// function draw(startX, startY, endX, endY) {
-//     ctx.moveTo(startX, startY);
-//     ctx.lineTo(endX, endY);
-//     ctx.stroke();
-// }
+function draw(ctx, startX, startY, endX, endY) {
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(endX, endY);
+    ctx.stroke();
+}
 
-// const canvas = document.getElementById('person');
-// const ctx = canvas.getContext('2d');
+const drawRope = (ctx) => {
+    draw(ctx, 60, 10, 60, 40)
+}
+function drawLine(ctx, startX, startY, endX, endY) {
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(endX, endY);
+    ctx.stroke();
+}
+function drawCirc(ctx, startX, startY, radius, startAngle, endAngle) {
+    ctx.beginPath();
+    ctx.arc(startX, startY, radius, startAngle, endAngle);
+    ctx.stroke();
+}
+function drawHead(ctx) {
+    drawCirc(ctx, 60, 50, 10, 0, Math.PI * 2);
+}
+function drawBody(ctx) {
+    drawLine(ctx, 60, 60, 60, 110);
+}
+function drawLeftArm(ctx) {
+    drawLine(ctx, 60, 70, 32, 50);
+}
+function drawRightArm(ctx) {
+    drawLine(ctx, 60, 70, 88, 50);
+}
+function drawLeftLeg(ctx) {
+    drawLine(ctx, 61, 109, 35, 130)
+}
 
-// function drawString() {
-//     ctx.lineWidth = 3;
-//     ctx.strokeStyle = "white";
-//     draw(0, 10, 75, 10)
-//     draw(10, 0, 10, 180)
-//     draw(0, 180, 180, 180)
-//     draw(75, 10, 75, 40) // 1 Rope
-//     ctx.arc(75, 56, 13, 0, 2 * Math.PI) // 2 head
-//     draw(75, 70, 75, 125) // 3 columna
-//     draw(75, 80, 110, 100) //4 rigth arm
-//     draw(75, 80, 42, 100) // 5 left arm
-//     draw(73, 123, 110, 150) // 6 rigth leg
-//     draw(74, 123, 41, 150)// 7 left leg
-// }
-// const drawRope = () => {
-//     draw(60, 10, 60, 40)
-// }
-
-// // switch (lives) {
-// //     case 6:
-// //         drawRope()
-// //         break;
-
-// //     default:
-// //         break;
-// // }
-
-// const drawHangmanPlatform = () => {
-//     ctx.lineWidth = 3;
-//     ctx.strokeStyle = "white";
-//     draw(0, 10, 75, 10)
-//     draw(10, 0, 10, 180)
-//     draw(0, 180, 180, 180)
-// }
-
-// const handleKeyPressed = (event) => {
-//     console.log(event.target.innerText);
-// }
-
-// document.addEventListener("DOMContentLoaded", () => {
-//     // adding renderer functions
-
-//     // initialize the hangman drawing
-//     drawHangmanPlatform()
-
-//     // add event listeners for each key in the keyboard
-//     const $keyboard = document.querySelector(".keyboard");
-//     const $keys = $keyboard.querySelectorAll("button.key");
-
-//     $keys.forEach(($key) => {
-//         $key.addEventListener("click", handleKeyPressed);
-//     })
-
-//     // replace lives left with value from the state machine
-//     const $livesLeft = document.querySelector(".game__stats");
-//     const gameLivesLeft = game.getLivesLeft();
-//     $livesLeft.innerText = `Lives: ${gameLivesLeft}`;
-
-//     // Showing placeholder of word selected
-//     const $placeholder = document.querySelector(".game__word");
-//     const wordSelectedPlaceholder = game.getPlaceholder().join("");
-//     $placeholder.innerText = wordSelectedPlaceholder;
-
-// })
+const drawHangmanPlatform = (ctx) => {
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "white";
+    draw(ctx, 0, 10, 75, 10)
+    draw(ctx, 10, 0, 10, 180)
+    draw(ctx, 0, 180, 180, 180)
+}
 
 const renderGameScreen = (gameState) => {
     const $rootContainer = document.getElementById("root");
@@ -97,6 +66,48 @@ const renderGameScreen = (gameState) => {
     }).join("")}
         </div>
     `
+    const canvas = $screen.querySelector('#person');
+    const ctx = canvas.getContext('2d');
+    drawHangmanPlatform(ctx);
+
+    switch (gameState.livesLeft) {
+        case 1:
+            drawRope(ctx);
+            drawHead(ctx);
+            drawBody(ctx);
+            drawLeftArm(ctx);
+            drawRightArm(ctx);
+            drawLeftLeg(ctx);
+            break;
+        case 2:
+            drawRope(ctx);
+            drawHead(ctx);
+            drawBody(ctx);
+            drawLeftArm(ctx);
+            drawRightArm(ctx);
+            break;
+        case 3:
+            drawRope(ctx);
+            drawHead(ctx);
+            drawBody(ctx);
+            drawLeftArm(ctx);
+            break;
+        case 4:
+            drawRope(ctx);
+            drawHead(ctx);
+            drawBody(ctx);
+            break;
+        case 5:
+            drawRope(ctx);
+            drawHead(ctx);
+            break;
+        case 6:
+            drawRope(ctx);
+            break;
+
+
+
+    }
 
     const $keyboardKeys = $screen.querySelectorAll(".game__letter");
 
@@ -120,6 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // initial state
         const gameInstance = getGameInstance();
+
         // we're gonna re-render gameScreen each time 
         // the state of the gameInstance changes
         gameInstance.subscribe({
