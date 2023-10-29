@@ -117,11 +117,9 @@ const renderGameScreen = (gameState) => {
 document.addEventListener("DOMContentLoaded", () => {
 
     if (document.readyState !== "loading") {
-        const $rootContainer = document.getElementById("root");
 
         // initial state
         const gameInstance = getGameInstance();
-
         // we're gonna re-render gameScreen each time 
         // the state of the gameInstance changes
         gameInstance.subscribe({

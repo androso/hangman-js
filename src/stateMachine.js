@@ -13,7 +13,7 @@ export default class HangmanGameState {
         this.word = word.toUpperCase();
         this.livesLeft = 7;
         this.placeholder = word.split("").map(letter => "_")
-        this.splittedWord = word.split("")
+        this.splittedWord = word.toUpperCase().split("")
         this.currentState = "PLAYING"
         this.lettersPressed = [];
         this.observers = []; // renderer functions to which we're gonna pass data each time it gets changed
@@ -66,8 +66,6 @@ export default class HangmanGameState {
     }
 
     subscribe({ render, name }) {
-        // render = renderer function
-        // name = name of the renderer function (id)
         this.observers.push({ render, name })
     }
 
