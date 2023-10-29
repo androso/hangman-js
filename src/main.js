@@ -1,5 +1,6 @@
-import { game } from "./stateMachine.js";
-import GameScreen from "./views/gameScreen.js";
+import { getGameInstance } from "./stateMachine.js";
+import { alphabet } from "./views/gameScreen.js";
+
 // function draw(startX, startY, endX, endY) {
 //     ctx.moveTo(startX, startY);
 //     ctx.lineTo(endX, endY);
@@ -74,17 +75,60 @@ import GameScreen from "./views/gameScreen.js";
 
 // })
 
+const renderGameScreen = (gameState) => {
+    const $rootContainer = document.getElementById("root");
+    const $screen = document.createElement("div");
+    $screen.className = "hangman__container";
+
+    $screen.innerHTML = `
+        <p class="game__stats">Lives: ${gameState.livesLeft}</p>
+        <h1 class="game__title title">HANGMAN</h1>
+        <canvas id="person" width="260" height="200"></canvas>
+        <p class="game__word">${gameState.placeholder.join("")}</p>
+        <div class="keyboard" id="keyboard" >
+            ${alphabet.map((letter) => {
+        const letterIsPressed = gameState.lettersPressed.includes(letter.toUpperCase());
+        return `
+               <button ${letterIsPressed ? "disabled" : ""} 
+                    type="button" id="${letter}" 
+                    class="game__letter ${letterIsPressed ? "pressed" : ""}">
+                    ${letter.toUpperCase()}</button>
+            `
+    }).join("")}
+        </div>
+    `
+
+    const $keyboardKeys = $screen.querySelectorAll(".game__letter");
+
+    $keyboardKeys.forEach(($key) => {
+        const letter = $key.id;
+        $key.addEventListener("click", () => gameState.guess(letter));
+    })
+
+    const $oldScreen = document.querySelector(".hangman__container");
+
+    if ($oldScreen) {
+        $rootContainer.replaceChild($screen, $oldScreen);
+    } else {
+        $rootContainer.appendChild($screen);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 
-  if (document.readyState !== "loading") {
-    const $rootContainer = document.getElementById("root");
-    const gameState = {
-        livesLeft: game.getLivesLeft(),
-        placeholder: game.getPlaceholder(),
-        guessLetter: game.guess
-    }
+    if (document.readyState !== "loading") {
+        const $rootContainer = document.getElementById("root");
 
-    const gameScreen = new GameScreen(gameState);
-    $rootContainer.innerHTML = gameScreen.getHTML();
-  }
+        // initial state
+        const gameInstance = getGameInstance();
+
+        // we're gonna re-render gameScreen each time 
+        // the state of the gameInstance changes
+        gameInstance.subscribe({
+            render: renderGameScreen, // recibira estado del juego y renderizara
+            name: "gameScreen"
+        })
+
+        gameInstance.init();
+    }
 });

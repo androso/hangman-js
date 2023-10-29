@@ -11,43 +11,26 @@ import { wordList } from "./data/dictionary.js";
 export default class HangmanGameState {
     constructor(word) {
         this.word = word.toUpperCase();
-        this.splittedWord = this.word.split("");
         this.livesLeft = 7;
-        this.wordSelected = "";
         this.placeholder = word.split("").map(letter => "_")
+        this.splittedWord = word.split("")
         this.currentState = "PLAYING"
+        this.lettersPressed = [];
         this.observers = []; // renderer functions to which we're gonna pass data each time it gets changed
     }
 
-    subscribe({ render, name }) {
-        // render = renderer function
-        // name = name of the renderer function (id)
-        this.observers.push({ render, name })
-    }
-
-    unsubscribe(observerName) {
-        this.observers = this.observers.filter(observer => observer.name !== observerName);
-    }
-
-    notify(data) {
-        this.observers.forEach(observer => observer.render(data));
-    }
-
-    getPlaceholder() {
-        return this.placeholder;
-    }
-
-    getLivesLeft() {
-        return this.livesLeft;
+    notify() {
+        this.observers.forEach(observer => observer.render(this));
     }
 
     guess(guessingLetter) {
-
-        if (this.placeholder.includes(guessingLetter)) return;
+        guessingLetter = guessingLetter.toUpperCase();
+        if (this.placeholder.includes(guessingLetter)) {
+            return false;
+        };
 
         const currentWord = this.splittedWord;
-        guessingLetter = guessingLetter.toUpperCase();
-        
+
         if (currentWord.includes(guessingLetter)) {
             const indexes = currentWord.map((lett, index) => ({
                 letter: lett,
@@ -63,19 +46,57 @@ export default class HangmanGameState {
                 }
             })
             this.placeholder = newPlaceholder;
-            console.log({newPlaceholder})
-            return true;
         } else {
             this.livesLeft -= 1;
-            console.log(guessingLetter, " no esta en la palabra")
-            return false;
+            console.log(`${guessingLetter} no esta en la palabra`)
+        }
+        this.lettersPressed.push(guessingLetter);
+        this.notify();
+    }
+
+    getAll() {
+        return {
+            word: this.word,
+            livesLeft: this.livesLeft,
+            placeholder: this.placeholder,
+            splittedWord: this.splittedWord,
+            currentState: this.currentState,
+            guess: this.guess
         }
     }
+
+    subscribe({ render, name }) {
+        // render = renderer function
+        // name = name of the renderer function (id)
+        this.observers.push({ render, name })
+    }
+
+    unsubscribe(observerName) {
+        this.observers = this.observers.filter(observer => observer.name !== observerName);
+    }
+
+    init() {
+        this.notify();
+    }
+
+    getPlaceholder() {
+        return this.placeholder;
+    }
+
+    getSplittedWord() {
+        return this.splittedWord;
+    }
+
+    getLivesLeft() {
+        return this.livesLeft;
+    }
+
+
 }
 
-const randomIndex = Math.round(Math.random() * wordList.length);
-const randomWord = wordList[randomIndex];
-export const game = new HangmanGameState(randomWord);
-// there has to be a connection between the html displayed,
-// how cicking something generates an action in the js and changes the state of the game resulting
-// in a change in the html displayed
+export const getGameInstance = () => {
+    const randomIndex = Math.round(Math.random() * wordList.length);
+    const randomWord = wordList[randomIndex];
+
+    return new HangmanGameState(randomWord);
+}
