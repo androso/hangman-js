@@ -25,7 +25,7 @@ export default class HangmanGameState {
 
     guess(guessingLetter) {
         guessingLetter = guessingLetter.toUpperCase();
-        if (this.placeholder.includes(guessingLetter)) {
+        if (this.lettersPressed.includes(guessingLetter)) {
             return false;
         };
 
@@ -48,7 +48,6 @@ export default class HangmanGameState {
             this.placeholder = newPlaceholder;
         } else {
             this.livesLeft -= 1;
-            console.log(`${guessingLetter} no esta en la palabra`)
         }
 
         this.lettersPressed.push(guessingLetter);

@@ -58,11 +58,12 @@ const renderGameScreen = (gameState) => {
             ${alphabet.map((letter) => {
         const letterIsPressed = gameState.lettersPressed.includes(letter.toUpperCase());
         return `
-               <button ${letterIsPressed ? "disabled" : ""} 
-                    type="button" id="${letter}" 
-                    class="game__letter ${letterIsPressed ? "pressed" : ""}">
-                    ${letter.toUpperCase()}</button>
-            `
+                    <button ${letterIsPressed ? "disabled" : ""} 
+                        type="button" id="${letter}" 
+                        class="game__letter ${letterIsPressed ? "pressed" : ""}">
+                        ${letter.toUpperCase()}
+                    </button>
+                `
     }).join("")}
         </div>
     `
@@ -165,5 +166,14 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
         gameInstance.init();
+    
+        document.addEventListener("keydown", (event) => {
+            const letter = event.key.toLowerCase();
+            if (alphabet.includes(letter)) {
+               gameInstance.guess(letter); 
+            }
+        })
+
+
     }
 });
