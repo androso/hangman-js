@@ -54,6 +54,7 @@ const renderGameScreen = (gameState) => {
         <h1 class="game__title title">HANGMAN</h1>
         <canvas id="person" width="260" height="200"></canvas>
         <p class="game__word">${gameState.placeholder.join("")}</p>
+        <p class="game__instructions">Pick a letter from below to guess the word.</p>
         <div class="keyboard" id="keyboard" >
             ${alphabet.map((letter) => {
         const letterIsPressed = gameState.lettersPressed.includes(letter.toUpperCase());
@@ -66,6 +67,7 @@ const renderGameScreen = (gameState) => {
                 `
     }).join("")}
         </div>
+        <a href="/" class="button game__trigger">MAIN MENU</a>
     `
     const canvas = $screen.querySelector('#person');
     const ctx = canvas.getContext('2d');

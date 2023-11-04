@@ -61,7 +61,7 @@ body {
 	margin: 0 auto;
 	width: 149px;
 	padding: 10px 15px;
-	font-size: 1.33rem;
+	font-size: 1.25rem;
 	background: var(--light-blue);
 	border: none;
 	border-radius: 7px;
@@ -174,7 +174,7 @@ h3.result:last-of-type {
 }
 
 .keyboard {
-	padding: 50px;
+	padding: 25px 50px ;
 }
 
 .key {
