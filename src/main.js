@@ -128,9 +128,9 @@ const renderEndScreen = (data) => {
 
     const screenHTML = `
         <div class="hangman__container">
-            <h1 className="game__title">GAME OVER</h1>
-            <h3 className="result">You ${result}</h3>
-            <h3 className="result">The word is ${data.word}</h3> 
+            <h1 class="game__title">GAME OVER</h1>
+            <h3 class="result">You ${result}</h3>
+            <h3 class="result">The word is ${data.word}</h3> 
               <a
                 href="./game.html"
                 class="button game"
