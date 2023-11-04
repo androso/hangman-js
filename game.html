@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./styles.css" />
-    <title>Game Boar</title>
-  </head>
-  <body>
-    <div id="root"></div>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="./styles.css" />
+		<title>Game Boar</title>
+	</head>
+	<body>
+		<div id="root">
+			<div class="hangman__container">
+				<button type="button" id="play-music-icon">
+					<iconify-icon class="icon" icon="ph:play-fill"></iconify-icon>
+				</button>
+				<audio id="audio" src="/src/music/kiki-ost.mp3" loop></audio>
+			</div>
+		</div>
 
-    <script src="./src/main.js" type="module"></script>
-  </body>
+		<script src="./src/main.js" type="module"></script>
+		<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+	</body>
 </html>

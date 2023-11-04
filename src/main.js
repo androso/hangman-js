@@ -45,12 +45,14 @@ const drawHangmanPlatform = (ctx) => {
 }
 
 const renderGameScreen = (gameState) => {
-    const $rootContainer = document.getElementById("root");
+    const $rootContainer = document.querySelector(".hangman__container");
     const $screen = document.createElement("div");
-    $screen.className = "hangman__container";
+    $screen.className = "game__container";
 
     $screen.innerHTML = `
-        <p class="game__stats">Lives: ${gameState.livesLeft}</p>
+        <div class="game__header">
+            <p class="game__header__stats">Lives: ${gameState.livesLeft}</p>
+        </div>
         <h1 class="game__title title">HANGMAN</h1>
         <canvas id="person" width="260" height="200"></canvas>
         <p class="game__word">${gameState.placeholder.join("")}</p>
@@ -69,6 +71,7 @@ const renderGameScreen = (gameState) => {
         </div>
         <a href="/" class="button game__trigger">MAIN MENU</a>
     `
+
     const canvas = $screen.querySelector('#person');
     const ctx = canvas.getContext('2d');
     drawHangmanPlatform(ctx);
@@ -116,7 +119,7 @@ const renderGameScreen = (gameState) => {
         $key.addEventListener("click", () => gameState.guess(letter));
     })
 
-    const $oldScreen = document.querySelector(".hangman__container");
+    const $oldScreen = document.querySelector(".game__container");
 
     if ($oldScreen) {
         $rootContainer.replaceChild($screen, $oldScreen);
@@ -168,14 +171,25 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
         gameInstance.init();
-    
+
         document.addEventListener("keydown", (event) => {
             const letter = event.key.toLowerCase();
             if (alphabet.includes(letter)) {
-               gameInstance.guess(letter); 
+                gameInstance.guess(letter);
             }
         })
 
+        const $playMusicIcon = document.querySelector("#play-music-icon .icon");
+        const $audio = document.querySelector("#audio");
+        $playMusicIcon.addEventListener("click", () => {
+            if ($audio.paused) {
+                $audio.play();
+                $playMusicIcon.setAttribute("icon", "ph:pause-fill")
+            } else {
+                $audio.pause();
+                $playMusicIcon.setAttribute("icon", "ph:play-fill")
+            }
+        })
 
     }
 });

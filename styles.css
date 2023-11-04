@@ -21,7 +21,7 @@
 }
 body {
 	font-size: 18px;
-  font-family: "Inter", sans-serif;
+	font-family: "Inter", sans-serif;
 }
 #root {
 	min-height: 100vh;
@@ -116,7 +116,7 @@ body {
 }
 
 /*-------- GAME SCREEN --------*/
-.game__stats {
+.game__header__stats {
 	text-align: left;
 }
 .game__word {
@@ -174,7 +174,7 @@ h3.result:last-of-type {
 }
 
 .keyboard {
-	padding: 25px 50px ;
+	padding: 25px 50px;
 }
 
 .key {
@@ -194,4 +194,21 @@ h3.result:last-of-type {
 	border-radius: 5px;
 	transform: scale(1.1);
 	border: 2px solid rgb(92, 214, 255);
+}
+
+/** PLAY MUSIC ICON	**/
+#play-music-icon {
+	position: absolute;
+	right: 20px;
+	background: none;
+	border: none;
+}
+#play-music-icon {
+	.icon {
+		color: white;
+		font-size: 1.2rem;
+	}
+	.icon:hover {
+		cursor: pointer;
+	}
 }
