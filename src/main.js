@@ -130,7 +130,7 @@ const renderGameScreen = (gameState) => {
 
 const renderEndScreen = (data) => {
     const $rootContainer = document.getElementById("root");
-    const result = data.currentStatate === "WON" ? "won!" : "lost :(";
+    const result = data.currentState === "WON" ? "won!" : "lost :(";
 
     const screenHTML = `
         <div class="hangman__container">
