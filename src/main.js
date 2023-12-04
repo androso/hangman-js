@@ -52,6 +52,7 @@ const renderGameScreen = (gameState) => {
     $screen.innerHTML = `
         <div class="game__header">
             <p class="game__header__stats">Lives: ${gameState.livesLeft}</p>
+            <div id="playername">Player: ${gameState.playerName}</div>
         </div>
         <h1 class="game__title title">HANGMAN</h1>
         <canvas id="person" width="260" height="200"></canvas>

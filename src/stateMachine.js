@@ -17,6 +17,7 @@ export default class HangmanGameState {
         this.currentState = "PLAYING"
         this.lettersPressed = [];
         this.observers = []; // renderer functions to which we're gonna pass data each time it gets changed
+        this.playerName = prompt('Enter your nickname')
     }
 
     notify() {
@@ -68,7 +69,8 @@ export default class HangmanGameState {
             placeholder: this.placeholder,
             splittedWord: this.splittedWord,
             currentState: this.currentState,
-            guess: this.guess
+            guess: this.guess,
+            playerName: this.playerName,
         }
     }
 
@@ -94,6 +96,9 @@ export default class HangmanGameState {
 
     getLivesLeft() {
         return this.livesLeft;
+    }
+    getNickName(){
+        return this.playerName
     }
 
 

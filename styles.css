@@ -220,3 +220,21 @@ h3.result:last-of-type {
 		width: 60%;
 	}
 }
+
+#playername{
+	background:transparent;
+	width: auto;
+	height: auto;
+	text-align: left;
+	font-family: fantasy;
+	margin-top: 10px;
+	font-size: 25px;
+	animation-name: miAnimacion;
+    animation-duration: 3s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+}
+@keyframes miAnimacion {
+    from {color: rgb(23, 219, 216);}
+    to {color: rgb(0, 149, 0);}
+}
