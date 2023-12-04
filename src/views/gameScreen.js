@@ -1,3 +1,4 @@
+// array de letras del alfabeto
 export const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
 const getGameScreen = (gameInstance) => {

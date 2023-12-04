@@ -1,54 +1,14 @@
-import { getGameInstance } from "./stateMachine.js";
+import { getGameInstance } from "./helpers/stateMachine.js";
 import { alphabet } from "./views/gameScreen.js";
-
-function draw(ctx, startX, startY, endX, endY) {
-    ctx.moveTo(startX, startY);
-    ctx.lineTo(endX, endY);
-    ctx.stroke();
-}
-
-const drawRope = (ctx) => {
-    draw(ctx, 60, 10, 60, 40)
-}
-function drawLine(ctx, startX, startY, endX, endY) {
-    ctx.moveTo(startX, startY);
-    ctx.lineTo(endX, endY);
-    ctx.stroke();
-}
-function drawCirc(ctx, startX, startY, radius, startAngle, endAngle) {
-    ctx.beginPath();
-    ctx.arc(startX, startY, radius, startAngle, endAngle);
-    ctx.stroke();
-}
-function drawHead(ctx) {
-    drawCirc(ctx, 60, 50, 10, 0, Math.PI * 2);
-}
-function drawBody(ctx) {
-    drawLine(ctx, 60, 60, 60, 110);
-}
-function drawLeftArm(ctx) {
-    drawLine(ctx, 60, 70, 32, 50);
-}
-function drawRightArm(ctx) {
-    drawLine(ctx, 60, 70, 88, 50);
-}
-function drawLeftLeg(ctx) {
-    drawLine(ctx, 61, 109, 35, 130)
-}
-
-const drawHangmanPlatform = (ctx) => {
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = "white";
-    draw(ctx, 0, 10, 75, 10)
-    draw(ctx, 10, 0, 10, 180)
-    draw(ctx, 0, 180, 180, 180)
-}
+import canvasHelpers from "./helpers/canvas.js";
 
 const renderGameScreen = (gameState) => {
+    // obtenemos contenedor
     const $rootContainer = document.querySelector(".hangman__container");
+
+    // creamos elemento de la pantalla con los datos del estado del juego
     const $screen = document.createElement("div");
     $screen.className = "game__container";
-
     $screen.innerHTML = `
         <div class="game__header">
             <p class="game__header__stats">Lives: ${gameState.livesLeft}</p>
@@ -72,56 +32,58 @@ const renderGameScreen = (gameState) => {
         </div>
         <a href="/" class="button game__trigger">MAIN MENU</a>
     `
+    // obtenemos canvas
+    const $canvas = $screen.querySelector('#person');
+    const ctx = $canvas.getContext('2d');
+    canvasHelpers.drawHangmanPlatform(ctx);
 
-    const canvas = $screen.querySelector('#person');
-    const ctx = canvas.getContext('2d');
-    drawHangmanPlatform(ctx);
-
+    // dibujando el hangman correcto con respecto a las vidas restantes
     switch (gameState.livesLeft) {
         case 1:
-            drawRope(ctx);
-            drawHead(ctx);
-            drawBody(ctx);
-            drawLeftArm(ctx);
-            drawRightArm(ctx);
-            drawLeftLeg(ctx);
+            canvasHelpers.drawRope(ctx);
+            canvasHelpers.drawHead(ctx);
+            canvasHelpers.drawBody(ctx);
+            canvasHelpers.drawLeftArm(ctx);
+            canvasHelpers.drawRightArm(ctx);
+            canvasHelpers.drawLeftLeg(ctx);
             break;
         case 2:
-            drawRope(ctx);
-            drawHead(ctx);
-            drawBody(ctx);
-            drawLeftArm(ctx);
-            drawRightArm(ctx);
+            canvasHelpers.drawRope(ctx);
+            canvasHelpers.drawHead(ctx);
+            canvasHelpers.drawBody(ctx);
+            canvasHelpers.drawLeftArm(ctx);
+            canvasHelpers.drawRightArm(ctx);
             break;
         case 3:
-            drawRope(ctx);
-            drawHead(ctx);
-            drawBody(ctx);
-            drawLeftArm(ctx);
+            canvasHelpers.drawRope(ctx);
+            canvasHelpers.drawHead(ctx);
+            canvasHelpers.drawBody(ctx);
+            canvasHelpers.drawLeftArm(ctx);
             break;
         case 4:
-            drawRope(ctx);
-            drawHead(ctx);
-            drawBody(ctx);
+            canvasHelpers.drawRope(ctx);
+            canvasHelpers.drawHead(ctx);
+            canvasHelpers.drawBody(ctx);
             break;
         case 5:
-            drawRope(ctx);
-            drawHead(ctx);
+            canvasHelpers.drawRope(ctx);
+            canvasHelpers.drawHead(ctx);
             break;
         case 6:
-            drawRope(ctx);
+            canvasHelpers.drawRope(ctx);
             break;
     }
 
     const $keyboardKeys = $screen.querySelectorAll(".game__letter");
 
+    // anclando los botones de letras con la función para adivinar 
     $keyboardKeys.forEach(($key) => {
         const letter = $key.id;
         $key.addEventListener("click", () => gameState.guess(letter));
     })
 
+    // reemplazando pantalla vieja con la que acabamos de crear
     const $oldScreen = document.querySelector(".game__container");
-
     if ($oldScreen) {
         $rootContainer.replaceChild($screen, $oldScreen);
     } else {
@@ -129,6 +91,7 @@ const renderGameScreen = (gameState) => {
     }
 }
 
+// función para renderizar pantalla final con resultados 
 const renderEndScreen = (data) => {
     const $rootContainer = document.getElementById("root");
     const result = data.currentState === "WON" ? "won!" : "lost :(";
@@ -154,34 +117,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (document.readyState !== "loading") {
 
-        // initial state
+        // obteniendo estado inicial
         const gameInstance = getGameInstance();
 
-        // we're gonna re-render gameScreen each time 
-        // the state of the gameInstance changes
+        // suscribiendo elementos de la interfaz de usuario a la maquina de estado
+        // que maneja el juego
         gameInstance.subscribe({
             render: (data) => {
+                // data contiene el estado del juego y lo pasamos a 
+                // funciones para que se actualice
                 if (data.currentState !== "PLAYING") {
-                    // game finished
+                    // mostramos pantalla final
                     renderEndScreen(data);
                 } else {
+                    // mostramos pantalla del juego
                     renderGameScreen(data)
                 }
-            }, // recibira estado del juego y renderizara
+            },
             name: "gameScreen"
         })
 
+        // inicializamos el juego 
         gameInstance.init();
 
+        // listener para detectar cuando se presiona una tecla del alfabeto
         document.addEventListener("keydown", (event) => {
             const letter = event.key.toLowerCase();
+
             if (alphabet.includes(letter)) {
                 gameInstance.guess(letter);
             }
         })
 
+        // manejamos el boton de musica
         const $playMusicIcon = document.querySelector("#play-music-icon .icon");
         const $audio = document.querySelector("#audio");
+
         $playMusicIcon.addEventListener("click", () => {
             if ($audio.paused) {
                 $audio.play();
@@ -191,6 +162,5 @@ document.addEventListener("DOMContentLoaded", () => {
                 $playMusicIcon.setAttribute("icon", "ph:play-fill")
             }
         })
-
     }
 });
