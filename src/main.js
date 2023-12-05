@@ -1,6 +1,6 @@
 import { getGameInstance } from "./helpers/stateMachine.js";
-import { alphabet } from "./views/gameScreen.js";
 import canvasHelpers from "./helpers/canvas.js";
+const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
 const renderGameScreen = (gameState) => {
     // obtenemos contenedor
@@ -155,6 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const $audio = document.querySelector("#audio");
 
         $playMusicIcon.addEventListener("click", () => {
+            console.log("icon clicked!");
             if ($audio.paused) {
                 $audio.play();
                 $playMusicIcon.setAttribute("icon", "ph:pause-fill")
