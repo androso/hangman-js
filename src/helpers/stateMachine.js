@@ -11,9 +11,9 @@ export default class HangmanGameState {
         this.currentState = "PLAYING"
         this.lettersPressed = []; // array de letras presionadas
         this.observers = []; // array de funciones a las cuales pasaremos la data cada vez que se cambie 
-        this.playerName = prompt('Enter your nickname')
+        this.playerName = null
 
-        this.turnTimeLeft = 5; // 30 seconds for each turn
+        this.turnTimeLeft = 25; // 25 segundos para cada turno
         this.interval = setInterval(() => this.updateTurnTime(), 1000);
     }
 
@@ -21,7 +21,7 @@ export default class HangmanGameState {
         this.turnTimeLeft--;
         if (this.turnTimeLeft === 0) {
             this.reduceLives();
-            this.turnTimeLeft = 5; // Reset turn time
+            this.turnTimeLeft = 25; // reseteamos el tiempo de turno
         }
         this.notify();
     }
@@ -86,7 +86,7 @@ export default class HangmanGameState {
             clearInterval(this.interval)
         }
 
-        this.turnTimeLeft = 5; // Reset turn time
+        this.turnTimeLeft = 25; // Reseteamos el tiempo del turno
         this.notify();
     }
 
@@ -102,7 +102,10 @@ export default class HangmanGameState {
 
     init() {
         // incializamos y llamamos a observadores con estado inicial
-        this.interval = setInterval(() => this.reduceLives(), 10000)
+        while (!this.playerName || this.playerName == "") {
+            this.playerName = prompt('Please, enter a nickname')
+        }
+
         this.notify();
     }
 
