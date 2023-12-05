@@ -12,6 +12,26 @@ export default class HangmanGameState {
         this.lettersPressed = []; // array de letras presionadas
         this.observers = []; // array de funciones a las cuales pasaremos la data cada vez que se cambie 
         this.playerName = prompt('Enter your nickname')
+
+        this.turnTimeLeft = 5; // 30 seconds for each turn
+        this.interval = setInterval(() => this.updateTurnTime(), 1000);
+    }
+
+    updateTurnTime() {
+        this.turnTimeLeft--;
+        if (this.turnTimeLeft === 0) {
+            this.reduceLives();
+            this.turnTimeLeft = 5; // Reset turn time
+        }
+        this.notify();
+    }
+
+    reduceLives() {
+        this.livesLeft--;
+        if (this.livesLeft == 0) {
+            this.currentState = "LOST"
+        }
+        this.notify();
     }
 
     notify() {
@@ -54,24 +74,27 @@ export default class HangmanGameState {
             // reducimos la vida en 1 si la letra no está en la palabra
             this.livesLeft -= 1;
         }
-        
+
         this.lettersPressed.push(guessingLetter);
 
         // actualizamos estado del juego de ser necesario
         if (this.livesLeft === 0) {
             this.currentState = "LOST"
+            clearInterval(this.interval);
         } else if (!this.placeholder.includes("_")) {
             this.currentState = "WON"
+            clearInterval(this.interval)
         }
 
+        this.turnTimeLeft = 5; // Reset turn time
         this.notify();
     }
-    
+
     subscribe({ render, name }) {
         // metodo para suscribir observadores 
         this.observers.push({ render, name })
     }
-    
+
     unsubscribe(observerName) {
         // metodo para desuscribir observadores 
         this.observers = this.observers.filter(observer => observer.name !== observerName);
@@ -79,6 +102,7 @@ export default class HangmanGameState {
 
     init() {
         // incializamos y llamamos a observadores con estado inicial
+        this.interval = setInterval(() => this.reduceLives(), 10000)
         this.notify();
     }
 
